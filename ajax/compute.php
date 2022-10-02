@@ -22,10 +22,11 @@ $deductions = $res->fetch_array()['deductions'];
 if ($e_type == 1) $field = 'driver_id';
 else if ($e_type == 2) $field = 'conductor_id';
 else if ($e_type == 3) $field = 'dispatcher_id';
-$sql = "SELECT SUM(earnings) as earnings, SUM(maintenance) as maintenance, (earnings - maintenance) as total FROM trips WHERE $field = $emp AND ( `date` >= '$start' AND `date` <= '$end' )";
+$sql = "SELECT SUM(earnings) as earnings, SUM(maintenance) as maintenance FROM trips WHERE $field = $emp AND `date` >= '$start' AND `date` <= '$end'";
+
 $res = mysqli_query($conn, $sql);
 extract($res->fetch_array());
-
+$total = $earnings - $maintenance;
 switch ($e_type) {
     case 1:
         $text = "Driver Salary Rate";
@@ -42,6 +43,8 @@ switch ($e_type) {
 }
 
 ?>
+
+
 
 <div class="h3 fw-bold mb-4">Computations</div>
 
@@ -90,7 +93,7 @@ if ($e_type == 1 || $e_type == 2) {
 if ($deduction == 1) {
 ?>
     <div class="h6 fw-bold">Deductions</div>
-    <div class="h1 fw-bold mb-3 text-danger">₱ <?= number_format($deductions, 2) ?></div>
+    <div class="h2 fw-bold mb-3 text-danger">₱ <?= number_format($deductions, 2) ?></div>
 <?php
 } else {
     $deductions = 0;
@@ -105,7 +108,7 @@ if ($bonus != '') {
 ?>
 
     <div class="h6 fw-bold">Bonus</div>
-    <div class="h1 fw-bold mb-3 text-success">₱ <?= number_format($bonus, 2) ?></div>
+    <div class="h2 fw-bold mb-3 text-success">₱ <?= number_format($bonus, 2) ?></div>
 <?php
 } else $bonus = 0;
 

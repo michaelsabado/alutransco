@@ -1,6 +1,9 @@
 <?php
 require('php/dbcon.php');
 
+if (!isset($_SESSION['user'])) {
+    header('Location: login');
+}
 
 
 ?>
@@ -342,16 +345,15 @@ require('php/dbcon.php');
                     url: 'php/trip',
                     data: $("#add-form").serialize(),
                     success: function(data) {
+                        console.log(data);
                         $("#add-form")[0].reset();
                         if (data == 1) {
                             load_data();
-                            Swal.fire({
-                                position: 'top-end',
-                                icon: 'success',
-                                title: 'Trip Added',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
+                            Swal.fire(
+                                'Success!',
+                                'Trip has been added.',
+                                'success'
+                            )
                         }
                     }
                 })

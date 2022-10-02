@@ -1,6 +1,8 @@
 <?php
 require('php/dbcon.php');
-
+if (!isset($_SESSION['user'])) {
+    header('Location: login');
+}
 $id = $_GET['id'];
 
 $sql = "SELECT * FROM employees WHERE emp_id = $id";
@@ -21,7 +23,7 @@ if ($res->num_rows > 0) {
 
 <head>
     <?php include('partials/_head.php') ?>
-    <title>ALUTRANSCO - Trips</title>
+    <title>ALUTRANSCO - <?= $lastname . ', ' . $firstname ?></title>
 </head>
 
 <body>
@@ -100,6 +102,9 @@ if ($res->num_rows > 0) {
             $('#reportrange span').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
             s = start;
             e = end;
+
+            console.log("Start: " + start.format('YYYY-MM-DD'));
+            console.log("End: " + end.format('YYYY-MM-DD'));
             $.ajax({
                 type: "POST",
                 url: "ajax/compute",

@@ -1,7 +1,9 @@
 <?php
 require('php/dbcon.php');
 
-
+if (!isset($_SESSION['user'])) {
+    header('Location: login');
+}
 
 ?>
 
@@ -10,7 +12,7 @@ require('php/dbcon.php');
 
 <head>
     <?php include('partials/_head.php') ?>
-    <title>ALUTRANSCO - Trips</title>
+    <title>ALUTRANSCO - Employees</title>
 </head>
 
 <body>
@@ -89,7 +91,7 @@ require('php/dbcon.php');
                                 <div class="h6 pt-2">Address</div>
                             </div>
                             <div class="col-md-7">
-                                <input type="text" class="form-control" name="address" required>
+                                <input type="text" class="form-control" name="address">
                             </div>
                         </div>
                         <div class="row mb-4">
@@ -97,7 +99,7 @@ require('php/dbcon.php');
                                 <div class="h6 pt-2">Contact</div>
                             </div>
                             <div class="col-md-7">
-                                <input type="text" class="form-control" name="contact" required>
+                                <input type="text" class="form-control" name="contact">
                             </div>
                         </div>
                         <div class="row mb-4">
@@ -168,7 +170,7 @@ require('php/dbcon.php');
                                 <div class="h6 pt-2">Address</div>
                             </div>
                             <div class="col-md-7">
-                                <input type="text" class="form-control" name="address" id="address" required>
+                                <input type="text" class="form-control" name="address" id="address">
                             </div>
                         </div>
                         <div class="row mb-4">
@@ -176,7 +178,7 @@ require('php/dbcon.php');
                                 <div class="h6 pt-2">Contact</div>
                             </div>
                             <div class="col-md-7">
-                                <input type="text" class="form-control" name="contact" id="contact" required>
+                                <input type="text" class="form-control" name="contact" id="contact">
                             </div>
                         </div>
                         <div class="row mb-4">
@@ -235,7 +237,7 @@ require('php/dbcon.php');
                         if (data == 1) {
                             load_data();
                             Swal.fire(
-                                'Deleted!',
+                                'Success!',
                                 'Employee has been added.',
                                 'success'
                             )

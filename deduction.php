@@ -1,7 +1,9 @@
 <?php
 require('php/dbcon.php');
 
-
+if (!isset($_SESSION['user'])) {
+    header('Location: login');
+}
 
 ?>
 
@@ -10,7 +12,7 @@ require('php/dbcon.php');
 
 <head>
     <?php include('partials/_head.php') ?>
-    <title>ALUTRANSCO - Trips</title>
+    <title>ALUTRANSCO - Deductions</title>
 </head>
 
 <body>
@@ -154,7 +156,7 @@ require('php/dbcon.php');
                         if (data == 1) {
                             load_data();
                             Swal.fire(
-                                'Deleted!',
+                                'Success!',
                                 'Deduction has been added.',
                                 'success'
                             )
