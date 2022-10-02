@@ -83,7 +83,7 @@ if (!isset($_SESSION['user'])) {
                                 <div class="h6 pt-2">Lastname</div>
                             </div>
                             <div class="col-md-7">
-                                <input type="text" class="form-control" name="lastname" required>
+                                <input type="text" class="form-control" name="lastname">
                             </div>
                         </div>
                         <div class="row mb-2">
