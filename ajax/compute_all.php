@@ -12,7 +12,11 @@ if ($deduction == 1) {
 } else {
     $deductions = 0;
 }
-
+if ($_POST['bonus'] != '') {
+    $bonus = $_POST['bonus'];
+} else {
+    $bonus = 0;
+}
 $start = $_POST['start'];
 $end = $_POST['end'];
 
@@ -39,6 +43,7 @@ while ($start != date('Y-m-d', strtotime($end . ' + 1 days'))) {
                 ?>
                 <th class="bg-success text-white text-nowrap">Gross Pay (₱)</th>
                 <th class="bg-danger text-white">Deduction (₱)</th>
+                <th class="bg-warning text-white">Bonus (₱)</th>
                 <th class=" bg-primary text-white text-nowrap">Net Pay (₱)</th>
                 <th>Print</th>
             </tr>
@@ -99,7 +104,9 @@ while ($start != date('Y-m-d', strtotime($end . ' + 1 days'))) {
                     }
                     echo '<td>' . $totalGross . '</td>';
                     echo '<td>' . $deductions . '</td>';
-                    echo '<td>' . $totalGross - $deductions . '</td>';
+                    echo '<td>' . $bonus . '</td>';
+                    echo '<td>' . ($totalGross - $deductions + $bonus) . '</td>';
+
                     echo '<td><a href="">Print</a></td>';
                     ?>
                 </tr>

@@ -30,7 +30,7 @@ if (!isset($_SESSION['user'])) {
                 <div class="d-flex flex-md-row flex-sm-column flex-column justify-content-between">
                     <div class="me-3">
                         <a href="payroll" class="text-decoration-none"><i class="fas fa-arrow-left"></i> Go back</a>
-                        <div class="h5 fw-bold">All Payroll</div>
+                        <div class="h3 fw-bold">All Payroll</div>
                     </div>
                     <div>
                         <form action="" id="compute-form">
@@ -58,7 +58,7 @@ if (!isset($_SESSION['user'])) {
                                         <input type="number" name="bonus" id="bonus" class="form-control mb-3" placeholder="Php" value="">
                                     </div>
                                     <div>
-                                        <button type="button" class="h6 py-3 fw-bold h-100">Print All <i class="fas fa-calculator ms-2"></i></i></button>
+                                        <button type="button" id="printall" class="h6 py-3 fw-bold h-100">Print All <i class="fas fa-calculator ms-2"></i></i></button>
                                     </div>
                                 </div>
 
@@ -111,30 +111,55 @@ if (!isset($_SESSION['user'])) {
         $("#bonus").keyup(function() {
             cb(s, e);
         });
+        $("#printall").click(function() {
+            cb(s, e, true);
+        });
 
-        function cb(start, end) {
+        function cb(start, end, print) {
             $('#reportrange span').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
             s = start;
             e = end;
+            const days = (date_1, date_2) => {
+                let difference = date_1 - date_2;
+                let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
+                return TotalDays;
+            }
 
-            console.log("Start: " + start.format('YYYY-MM-DD'));
-            console.log("End: " + end.format('YYYY-MM-DD'));
-            $.ajax({
-                type: "POST",
-                url: "ajax/compute_all",
-                data: {
-                    e_type: $("#e_type").val(),
-                    start: start.format('YYYY-MM-DD'),
-                    end: end.format('YYYY-MM-DD'),
-                    emp: $("#emp").val(),
-                    deduction: $("#deduction").val(),
-                    bonus: $("#bonus").val()
-                },
-                success: function(data) {
-                    $("#computations").html(data);
+
+
+            if (days(e, s) > 7) {
+                alert('Please select 7 days only');
+            } else {
+                console.log("Start: " + start.format('YYYY-MM-DD'));
+                console.log("End: " + end.format('YYYY-MM-DD'));
+
+                if (print) {
+                    st = start.format('YYYY-MM-DD');
+                    en = end.format('YYYY-MM-DD');
+                    window.location.href = `print/all_payroll?start=${st}&end=${en}&deduction=${$("#deduction").val()}&bonus=${$("#bonus").val()}`;
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: "ajax/compute_all",
+                        data: {
+                            e_type: $("#e_type").val(),
+                            start: start.format('YYYY-MM-DD'),
+                            end: end.format('YYYY-MM-DD'),
+                            emp: $("#emp").val(),
+                            deduction: $("#deduction").val(),
+                            bonus: $("#bonus").val()
+                        },
+                        success: function(data) {
+                            $("#computations").html(data);
+                        }
+                    });
                 }
-            });
+
+
+            }
+
         }
+
 
         $('#reportrange').daterangepicker({
             startDate: start,
