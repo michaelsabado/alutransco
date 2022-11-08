@@ -13,7 +13,7 @@ if ($type == 1) {
     $conductor = $_POST['conductor'];
     $dispatcher = $_POST['dispatcher'];
     $earnings = $_POST['earnings'];
-    $maintenance = $_POST['maintenance'];
+    $maintenance = $_POST['earnings'] * .20;
     $date = $_POST['date'];
 
     $sql = "INSERT INTO `trips`(`bus_id`, `driver_id`, `conductor_id`, `dispatcher_id`, `earnings`, `maintenance`, `date`) VALUES ($bus,$driver,$conductor,$dispatcher,'$earnings','$maintenance','$date')";
@@ -33,7 +33,7 @@ if ($type == 2) {
     $conductor = $_POST['conductor'];
     $dispatcher = $_POST['dispatcher'];
     $earnings = $_POST['earnings'];
-    $maintenance = $_POST['maintenance'];
+    $maintenance = $_POST['earnings'] * .20;
     $date = $_POST['date'];
 
     $sql = "UPDATE `trips` SET `bus_id`='$bus',`driver_id`='$driver',`conductor_id`='$conductor',`dispatcher_id`='$dispatcher',`earnings`='$earnings',`maintenance`='$maintenance',`date`='$date' WHERE trip_id = $id";

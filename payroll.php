@@ -23,6 +23,11 @@ if (!isset($_SESSION['user'])) {
         <div class="row">
             <div class="col-md-3 col-sm-12 col-12">
                 <div class="display-5 fw-bold mb-4">Payroll</div>
+                <div class="menu">
+
+                    <a class="h6 py-3" href="all_payroll">View all Payroll <i class="fas fa-chevron-circle-right float-end"></i></a>
+
+                </div>
 
                 <!-- <div class="menu">
              <dib class="h6 fw-semi">Start Date</dib>

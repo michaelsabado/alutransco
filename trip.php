@@ -154,15 +154,15 @@ if (!isset($_SESSION['user'])) {
                                 <div class="h6 pt-2">Earnings (Php)</div>
                             </div>
                             <div class="col-md-7">
-                                <input type="number" name="earnings" class="form-control">
+                                <input type="number" name="earnings" class="form-control" onkeyup="$('#maintenance1').val(($(this).val()*.2).toFixed(2))">
                             </div>
                         </div>
                         <div class="row mb-4">
                             <div class="col-md-5">
-                                <div class="h6 pt-2">Maintenance (Php)</div>
+                                <div class="h6 pt-2">Maintenance 20% (Php)</div>
                             </div>
                             <div class="col-md-7">
-                                <input type="number" name="maintenance" class="form-control">
+                                <input type="number" id="maintenance1" step="any" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-2">
@@ -289,15 +289,15 @@ if (!isset($_SESSION['user'])) {
                                 <div class="h6 pt-2">Earnings (Php)</div>
                             </div>
                             <div class="col-md-7">
-                                <input type="number" name="earnings" id="earnings" class="form-control">
+                                <input type="number" name="earnings" id="earnings" onkeyup="$('#maintenance').val(($(this).val()*.2).toFixed(2))" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-4">
                             <div class="col-md-5">
-                                <div class="h6 pt-2">Maintenance (Php)</div>
+                                <div class="h6 pt-2">Maintenance 20% (Php)</div>
                             </div>
                             <div class="col-md-7">
-                                <input type="number" name="maintenance" id="maintenance" class="form-control">
+                                <input type="number" step="any" id="maintenance" class="form-control" readonly>
                             </div>
                         </div>
                         <div class="row mb-2">
