@@ -17,7 +17,7 @@ if ($_POST['bonus'] != '') {
 } else {
     $bonus = 0;
 }
-$start = $_POST['start'];
+$start = $s = $_POST['start'];
 $end = $_POST['end'];
 
 
@@ -107,7 +107,7 @@ while ($start != date('Y-m-d', strtotime($end . ' + 1 days'))) {
                     echo '<td>' . $bonus . '</td>';
                     echo '<td>' . ($totalGross - $deductions + $bonus) . '</td>';
 
-                    echo '<td><a href="">Print</a></td>';
+                    echo '<td><a href="print/employee_payroll?id=' . $emp . '&start=' . $s . '&end=' . $end . '&deduction=' . $deduction . '&bonus=' . $bonus . '">Print Slip</a></td>';
                     ?>
                 </tr>
             <?php

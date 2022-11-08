@@ -73,9 +73,7 @@ $end = $_GET['end'];
         <div style="text-align: center; margin-bottom: 10px">
             <h3>Employee Payroll</h3>
             <h5>
-                for
-            </h5>
-            <h5>week ended <?= date('F d, Y', strtotime($end)) ?></h5>
+                from <?= date('F d, Y', strtotime($st)) ?> to <?= date('F d, Y', strtotime($end)) ?></h5>
         </div>
 
         <table border="1" class="table table-bordered">
@@ -166,7 +164,10 @@ $end = $_GET['end'];
         </table>
     </div>
     <script>
-        window.print();
+        document.addEventListener("DOMContentLoaded", function() {
+            // code... 
+            window.print();
+        });
     </script>
 </body>
 
