@@ -66,7 +66,7 @@ if ($employees_res->num_rows > 0) {
     </style>
 </head>
 
-<body>
+<body id="element-to-print">
 
     <?php
     $days = [];
@@ -150,9 +150,11 @@ if ($employees_res->num_rows > 0) {
                     case 3:
                         $text = "Collector/Dispatcher Salary Rate";
                         // FOR CONDUCTOR
-                        $sql_dispatch = "SELECT distinct(date) FROM trips WHERE $field = $emp AND ( `date` >= '$start' AND `date` <= '$end' ) ";
+                        $sql_dispatch = "SELECT distinct(date) FROM trips WHERE $field = $emp AND ( `date` = '$d' ) ";
                         $r = mysqli_query($conn, $sql_dispatch);
-                        $gross = $r->num_rows * 350;
+                        if ($r->num_rows > 0) {
+                            $gross = 350;
+                        } else $gross = 0;
                         break;
                 }
                 echo '<tr>';
@@ -214,10 +216,33 @@ if ($employees_res->num_rows > 0) {
             <h4>This is a system generated slip.</h4>
         </div>
     </div>
+    <script src="../partials/html2pdf.bundle.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // code... 
-            window.print();
+            // window.print();
+            var element = document.getElementById('element-to-print');
+            var opt = {
+                pagebreak: {
+                    mode: ['avoid-all', 'css', 'legacy']
+                },
+                margin: 0.3,
+                filename: '<?= date('Y-m-d') ?>_Admin-QMS-Report.pdf',
+                image: {
+                    type: 'jpeg',
+                    quality: 1
+                },
+                html2canvas: {
+                    scale: 2
+                },
+                jsPDF: {
+                    unit: 'in',
+                    format: 'letter',
+                    orientation: 'portrait'
+                }
+            };
+
+            html2pdf().set(opt).from(element).save();
         });
     </script>
 </body>

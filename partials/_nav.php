@@ -14,7 +14,7 @@
           <a class="nav-link" href="trip">Daily Trips</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="payroll">Payroll</a>
+          <a class="nav-link" href="all_payroll">All Payroll</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

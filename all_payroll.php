@@ -13,9 +13,12 @@ if (!isset($_SESSION['user'])) {
     <?php include('partials/_head.php') ?>
     <title>ALUTRANSCO</title>
     <style>
-        table tr td {
+        table tr td,
+        table tr th {
             vertical-align: middle;
             text-align: end;
+            font-size: 14px;
+            padding: 3px 5px !important;
         }
     </style>
 </head>
@@ -23,13 +26,13 @@ if (!isset($_SESSION['user'])) {
 <body>
     <?php include('partials/_nav.php') ?>
 
-    <div class="container pt-5">
+    <div class="container pt-3">
 
         <div class="row">
             <div class="col-md-12 col-sm-12 col-12">
-                <div class="d-flex flex-md-row flex-sm-column flex-column justify-content-between">
+                <div class="d-flex flex-md-row flex-sm-column flex-column justify-content-">
                     <div class="me-3">
-                        <a href="payroll" class="text-decoration-none"><i class="fas fa-arrow-left"></i> Go back</a>
+                        <!-- <a href="payroll" class="text-decoration-none"><i class="fas fa-arrow-left"></i> Go back</a> -->
                         <div class="h3 fw-bold">All Payroll</div>
                     </div>
                     <div>
@@ -39,7 +42,7 @@ if (!isset($_SESSION['user'])) {
                                 <div class="d-flex flex-md-row flex-sm-column flex-column ">
                                     <div class="me-2">
                                         <div class="h6 fw-semi">Date Range</div>
-                                        <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%; border-radius: 10px">
+                                        <div id="reportrange" class="mb-2" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%; border-radius: 10px">
                                             <i class="fa fa-calendar"></i>&nbsp;
                                             <span></span>
                                             <!-- <i class="fa fa-caret-down"></i> -->
@@ -57,20 +60,20 @@ if (!isset($_SESSION['user'])) {
                                         <div class="h6 fw-semi">Bonus</div>
                                         <input type="number" name="bonus" id="bonus" class="form-control mb-3" placeholder="Php" value="">
                                     </div>
-                                    <div>
-                                        <button type="button" id="printall" class="h6 py-3 fw-bold h-100">Print All <i class="fas fa-calculator ms-2"></i></i></button>
+                                    <div class="me-2">
+                                        <div class="h6">.</div>
+                                        <button type="button" id="fetch" class="btn btn-primary h6 fw-bold py-2">Calculate <i class="fas fa-calculator ms-2"></i></i></button>
                                     </div>
                                 </div>
-
-
-
-
-                                <!-- <hr>
-    <button type="submit" class="h6 py-3 fw-bold">Compute Pay<i class="fas fa-calculator float-end"></i></i></button> -->
-
                             </div>
                         </form>
                     </div>
+
+                    <div class="ms-auto">
+                        <div class="h6">.</div>
+                        <button type="button" id="printall" class="btn btn-primary h6 fw-bold w-md-auto w-sm-100 w-100">Print All <i class="fas fa-calculator ms-2"></i></i></button>
+                    </div>
+
                 </div>
 
 
@@ -105,10 +108,13 @@ if (!isset($_SESSION['user'])) {
 
         var s, e;
 
-        $("#deduction").change(function() {
-            cb(s, e);
-        });
-        $("#bonus").keyup(function() {
+        // $("#deduction").change(function() {
+        //     cb(s, e);
+        // });
+        // $("#bonus").keyup(function() {
+        //     cb(s, e);
+        // });
+        $("#fetch").click(function() {
             cb(s, e);
         });
         $("#printall").click(function() {
@@ -136,7 +142,7 @@ if (!isset($_SESSION['user'])) {
                 if (print) {
                     st = start.format('YYYY-MM-DD');
                     en = end.format('YYYY-MM-DD');
-                    window.location.href = `print/all_payroll?start=${st}&end=${en}&deduction=${$("#deduction").val()}&bonus=${$("#bonus").val()}`;
+                    window.open(`print/all_payroll?start=${st}&end=${en}&deduction=${$("#deduction").val()}&bonus=${$("#bonus").val()}`, '_blank');
                 } else {
                     $.ajax({
                         type: "POST",
@@ -151,6 +157,13 @@ if (!isset($_SESSION['user'])) {
                         },
                         success: function(data) {
                             $("#computations").html(data);
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Payroll calculated',
+                                showConfirmButton: false,
+                                timer: 1000
+                            })
                         }
                     });
                 }
