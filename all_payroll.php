@@ -36,11 +36,11 @@ if (!isset($_SESSION['user'])) {
                         <div class="h3 fw-bold">All Payroll</div>
                     </div>
                     <div>
-                        <form action="" id="compute-form">
+                        <form id="compute-form">
 
                             <div class="menu">
                                 <div class="d-flex flex-md-row flex-sm-column flex-column ">
-                                    <div class="me-2">
+                                    <div class="me-3">
                                         <div class="h6 fw-semi">Date Range</div>
                                         <div id="reportrange" class="mb-2" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%; border-radius: 10px">
                                             <i class="fa fa-calendar"></i>&nbsp;
@@ -48,17 +48,17 @@ if (!isset($_SESSION['user'])) {
                                             <!-- <i class="fa fa-caret-down"></i> -->
                                         </div>
                                     </div>
-                                    <div class="me-2">
-                                        <div class="h6 fw-semi">Deduction</div>
+                                    <div class="me-3">
+                                        <div class="h6 fw-semi">Deduction (All)</div>
                                         <select name="deduction" id="deduction" class="form-select mb-3">
                                             <option value="1">Yes</option>
                                             <option value="2" selected>No</option>
                                         </select>
                                     </div>
-                                    <div class="me-2">
+                                    <div class="me-3">
 
-                                        <div class="h6 fw-semi">Bonus</div>
-                                        <input type="number" name="bonus" id="bonus" class="form-control mb-3" placeholder="Php" value="">
+                                        <div class="h6 fw-semi">Bonus (All)</div>
+                                        <input type="number" min="0" name="bonus" id="bonus" class="form-control mb-3" placeholder="Php" value="">
                                     </div>
                                     <div class="me-2">
                                         <div class="h6">.</div>

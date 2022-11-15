@@ -52,3 +52,16 @@ if ($type == 3) {
         echo 2;
     }
 }
+
+
+if ($type == 4) {
+    $id = $_POST['id'];
+    $bonus = $_POST['bonus'];
+    $sql = "UPDATE adjustments SET bonus = $bonus WHERE user_id = $id";
+
+    if (mysqli_query($conn, $sql)) {
+        echo 1;
+    } else {
+        echo 2;
+    }
+}

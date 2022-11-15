@@ -2,21 +2,6 @@
 
 require('../php/dbcon.php');
 
-
-$deduction = $_GET['deduction'];
-if ($deduction == 1) {
-    // Compute deductions
-    $sql = "SELECT SUM(amount) as deductions from deductions";
-    $res = mysqli_query($conn, $sql);
-    $deductions = $res->fetch_array()['deductions'];
-} else {
-    $deductions = 0;
-}
-if ($_GET['bonus'] != '') {
-    $bonus = $_GET['bonus'];
-} else {
-    $bonus = 0;
-}
 $st = $start = $_GET['start'];
 $end = $_GET['end'];
 
@@ -97,10 +82,22 @@ $end = $_GET['end'];
         <?php
 
 
-        $sql = "SELECT * FROM employees ORDER by firstname";
+
+        $sql = "SELECT a.emp_id, a.firstname, a.middlename, a.lastname, a.type, b.id as adj, b.bonus, b.deduction FROM employees a  LEFT JOIN adjustments b ON a.emp_id = b.user_id ORDER by a.firstname";
         $employees_res = mysqli_query($conn, $sql);
         $count = 1;
         while ($emp_row = $employees_res->fetch_assoc()) {
+
+            if ($emp_row['adj'] === null) {
+                $bonus = 0;
+                $deductions = 0;
+                $conn->query("INSERT INTO `adjustments`( `user_id`, `bonus`, `deduction`) VALUES ($emp,$bonus,$deductions)");
+            } else {
+                $bonus = $emp_row['bonus'];
+                $deductions =  $emp_row['deduction'];
+            }
+
+
 
             $emp = $emp_row['emp_id'];
 
@@ -173,11 +170,11 @@ $end = $_GET['end'];
                         switch ($e_type) {
                             case 1:
                                 $text = "Driver Salary Rate";
-                                $gross = number_format($total * 0.15, 2);
+                                $gross = (float)$total * 0.15;
                                 break;
                             case 2:
                                 $text = "Conductor Salary Rate";
-                                $gross = number_format($total * 0.10, 2);
+                                $gross = (float)$total * 0.10;
                                 break;
                             case 3:
                                 $text = "Collector/Dispatcher Salary Rate";
@@ -193,7 +190,7 @@ $end = $_GET['end'];
                         echo '<th>' . date('F d, Y', strtotime($d)) . '</th>';
                         echo '<td><h3>' . $gross . '</h3></td>';
                         echo '</tr>';
-                        $totalGross += $gross;
+                        $totalGross = (float)$totalGross + $gross;
                     }
                     // echo '<td>' . $totalGross . '</td>';
                     // echo '<td>' . $deductions . '</td>';
@@ -236,7 +233,7 @@ $end = $_GET['end'];
 
                 </table>
                 <div style="text-align: center; margin-bottom: 10px">
-                    <h2>Php <?= $netpay  ?></h2>
+                    <h2 style="color: <?= ($netpay < 0) ? 'red' : 'black' ?>">Php <?= $netpay  ?></h2>
                 </div>
                 <br>
                 <h3>Employer Signature: ____________________</h3>

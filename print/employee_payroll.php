@@ -3,26 +3,15 @@
 require('../php/dbcon.php');
 
 $emp = $_GET['id'];
-$deduction = $_GET['deduction'];
-if ($deduction == 1) {
-    // Compute deductions
-    $sql = "SELECT SUM(amount) as deductions from deductions";
-    $res = mysqli_query($conn, $sql);
-    $deductions = $res->fetch_array()['deductions'];
-} else {
-    $deductions = 0;
-}
-if ($_GET['bonus'] != '') {
-    $bonus = $_GET['bonus'];
-} else {
-    $bonus = 0;
-}
+
 $st = $start = $_GET['start'];
 $end = $_GET['end'];
-$sql = "SELECT * FROM employees WHERE emp_id = $emp";
+$sql = "SELECT a.emp_id, a.firstname, a.middlename, a.lastname, a.type, b.id as adj, b.bonus, b.deduction FROM employees a  LEFT JOIN adjustments b ON a.emp_id = b.user_id WHERE emp_id = $emp";
 $employees_res = mysqli_query($conn, $sql);
 if ($employees_res->num_rows > 0) {
     $emp_row = $employees_res->fetch_assoc();
+    $bonus = $emp_row['bonus'];
+    $deductions = $emp_row['deduction'];
 } else {
     header('Location:../payroll');
 }
@@ -141,11 +130,11 @@ if ($employees_res->num_rows > 0) {
                 switch ($e_type) {
                     case 1:
                         $text = "Driver Salary Rate";
-                        $gross = number_format($total * 0.15, 2);
+                        $gross = (float)$total * 0.15;
                         break;
                     case 2:
                         $text = "Conductor Salary Rate";
-                        $gross = number_format($total * 0.10, 2);
+                        $gross = (float)$total * 0.10;
                         break;
                     case 3:
                         $text = "Collector/Dispatcher Salary Rate";
@@ -161,7 +150,7 @@ if ($employees_res->num_rows > 0) {
                 echo '<th>' . date('F d, Y', strtotime($d)) . '</th>';
                 echo '<td><h3>' . $gross . '</h3></td>';
                 echo '</tr>';
-                $totalGross += $gross;
+                $totalGross = (float)$totalGross + $gross;
             }
             // echo '<td>' . $totalGross . '</td>';
             // echo '<td>' . $deductions . '</td>';
