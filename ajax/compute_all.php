@@ -72,6 +72,11 @@ while ($start != date('Y-m-d', strtotime($end . ' + 1 days'))) {
 
                 if ($emp_row['adj'] === null) {
                     $conn->query("INSERT INTO `adjustments`( `user_id`, `bonus`, `deduction`) VALUES ($emp,$bonus,$deductions)");
+                    if ($deduction != 1) {
+                        $control = '<span class="badge bg-primary">NO</span>';
+                    } else {
+                        $control = '<span class="badge bg-danger">YES</span>';
+                    }
                 } else {
 
                     //general bonus
